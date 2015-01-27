@@ -182,7 +182,14 @@ sizeI = S.size . unDiet
 
 -- | Checks if the value is in the set.
 member :: Ord a => a -> Diet a -> Bool
-member a = S.member (point a) . unDiet
+member a d =
+    any (overlapping i)
+    $ catMaybes [ S.lookupLE i s
+                , S.lookupGT i s
+                ]
+    where
+        i = point a
+        s = unDiet d
 
 -- | Checks if the value is not in the set.
 notMember :: Ord a => a -> Diet a -> Bool

@@ -106,6 +106,18 @@ prop_read_show ls =
     let d = foldr insertI empty ls
     in  d === read (show d)
 
+prop_member :: [Int] -> [Int] -> Property
+prop_member a f =
+    let d = foldr insert empty a
+        s = foldr S.insert S.empty a
+    in  conjoin $ map (\i -> member i d === S.member i s) f
+
+prop_notMember :: [Int] -> [Int] -> Property
+prop_notMember a f =
+    let d = foldr insert empty a
+        s = foldr S.insert S.empty a
+    in  conjoin $ map (\i -> notMember i d === S.notMember i s) f
+
 return []
 tests :: IO Bool
 tests = $quickCheckAll
