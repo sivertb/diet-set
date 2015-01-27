@@ -44,6 +44,21 @@ mergeIntervals intervals =
                  Nothing -> i : helper l ls
                  Just j  -> helper j ls
 
+prop_interval_eq1 :: Interval Int -> Property
+prop_interval_eq1 i = i === i
+
+prop_interval_eq2 :: Interval Int -> Interval Int -> Property
+prop_interval_eq2 i j = i == j .||. i /= j
+
+prop_interval_ord :: Interval Int -> Interval Int -> Property
+prop_interval_ord i@(Interval il iu) j@(Interval jl ju) =
+    compare i j === expected
+    where
+        expected
+            | il < jl   = LT
+            | il > jl   = GT
+            | otherwise = compare iu ju
+
 prop_valid_insert :: [Int] -> Bool
 prop_valid_insert a = valid $ foldr insert empty a
 
@@ -98,8 +113,14 @@ prop_singleton i = toList (singleton i) === [i]
 prop_singletonI :: Interval Int -> Property
 prop_singletonI i = toListI (singletonI i) === [i]
 
-prop_eq :: [Interval Int] -> Property
-prop_eq ls = foldr insertI empty ls === foldr insertI empty (mergeIntervals ls)
+prop_eq1 :: [Interval Int] -> Property
+prop_eq1 ls = foldr insertI empty ls === foldr insertI empty (mergeIntervals ls)
+
+prop_eq2 :: [Int] -> [Int] -> Property
+prop_eq2 a b =
+    let sa = foldr insert empty a
+        sb = foldr insert empty b
+    in  sa == sb .||. sa /= sb
 
 prop_read_show :: [Interval Int] -> Property
 prop_read_show ls =
