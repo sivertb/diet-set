@@ -2,7 +2,10 @@ name:                diet-set
 version:             0.0.1
 synopsis:            Discrete Interval Encoding Tree
 description:
-    
+  An implementation of Discrete Interval Encoding Trees, described by Martin
+  Erwig in /Diets for Fat Sets/. The idea is to use intervals to represent
+  consecutive elements, potentially using far fewer intervals than the actual
+  number of elements in the set.
 license:             GPL
 license-file:        LICENSE
 author:              Sivert Berg

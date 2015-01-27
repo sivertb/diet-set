@@ -7,9 +7,8 @@ Maintainer  : code@trev.is
 Stability   : experimental
 Portability : GHC only
 
-Discrete Interval Encoding Trees, as described by Martin Erwig in "Diets for
-Fat Sets". It uses 'Data.Set' as the underlying data structure to avoid having
-to implement a balanced binary from scratch.
+Discrete Interval Encoding Trees [1]. It uses 'Data.Set' as the underlying data
+structure to avoid having to implement a balanced binary from scratch.
 
 Discrete Interval Encoding Trees represent adjacent elements in the set using
 an interval. E.g. the following
@@ -22,6 +21,8 @@ produces the set
 
 This allows some sets to be represented using far fewer nodes than if they had
 to use a single node per value.
+
+\[1\] Martin Erwig, __Diets for Fat Sets__, /Journal of Functional Programming/, Vol. 8, No. 6, 627-632, 1998
 -}
 module Data.Set.Diet
     (
