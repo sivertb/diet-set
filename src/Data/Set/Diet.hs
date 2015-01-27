@@ -260,19 +260,19 @@ singletonI = Diet . S.singleton
 singleton :: a -> Diet a
 singleton = singletonI . point
 
+-- | Checks if the set is non-empty, returning 'Nothing' if it is empty.
+nonEmpty :: Diet a -> Maybe (Diet a)
+nonEmpty d = d <$ guard (not $ null d)
+
 -- | Returns the minimal element, and the set without that element, or
 -- 'Nothing' if the set is empty.
 minView :: (Enum a, Ord a) => Diet a -> Maybe (a, Diet a)
-minView d
-    | null d    = Nothing
-    | otherwise = Just . (id &&& flip delete d) . lower . S.findMin $ unDiet d
+minView d = (id &&& flip delete d) . lower . S.findMin . unDiet <$> nonEmpty d
 
 -- | Returns the maximal element, and the set without that element, or
 -- 'Nothing' if the set is empty.
 maxView :: (Enum a, Ord a) => Diet a -> Maybe (a, Diet a)
-maxView d
-    | null d    = Nothing
-    | otherwise = Just . (id &&& flip delete d) . upper . S.findMax $ unDiet d
+maxView d = (id &&& flip delete d) . upper . S.findMax . unDiet <$> nonEmpty d
 
 -- | Gets a list of all intervals in the set.
 toListI :: Diet a -> [Interval a]
