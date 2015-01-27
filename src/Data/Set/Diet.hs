@@ -74,6 +74,7 @@ where
 
 import Control.Arrow ((&&&))
 import Control.Applicative ((<$), (<$>), (*>))
+import Control.DeepSeq
 import Control.Monad (guard)
 import Data.Foldable (foldr, concatMap, and)
 import Data.Ix (Ix, rangeSize)
@@ -98,6 +99,12 @@ instance (Read a, Enum a, Ord a) => Read (Diet a) where
         $ fromListI <$> (identP "fromListI" *> readPrec)
         where
             identP str = lexP >>= guard . (== Ident str)
+
+instance NFData a => NFData (Interval a) where
+    rnf (Interval a b) = rnf (a, b)
+
+instance NFData a => NFData (Diet a) where
+    rnf (Diet s) = rnf s
 
 -- | Checks if a value is within a range.
 inRange :: Ord a => a -> (a, a) -> Bool
