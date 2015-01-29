@@ -1,5 +1,5 @@
 name:                diet-set
-version:             0.0.1
+version:             0.1.0
 synopsis:            Discrete Interval Encoding Tree
 description:
   An implementation of Discrete Interval Encoding Trees, described by Martin
